@@ -16,6 +16,12 @@ data_dir = os.environ.get('DATA_PATH', os.path.dirname(__file__) + '/../data')
 quotes = json.load(open(data_dir + '/quotes.json'))
 max_id = len(quotes)
 
+
+@app.get("/")
+async def root():
+    return {"status": "live"}
+
+
 @app.get("/quote/")
 async def get_quote(quote_id: int = Query(-1, description="The ID of the quote you want to retrieve. Leave blank to get a random quote.")):
     if quote_id == -1:
