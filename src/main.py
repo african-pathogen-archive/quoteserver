@@ -4,6 +4,7 @@ import os.path
 
 from contextlib import asynccontextmanager
 from random import randint
+from sys import stderr
 
 from fastapi import FastAPI, Query, HTTPException, Depends
 from sqlmodel import create_engine, Session, SQLModel
@@ -24,6 +25,9 @@ async def lifespan(app: FastAPI):
     db_name = os.getenv('DB_NAME')
     db_user = os.getenv('DB_USER')
     db_password = os.getenv('DB_PASSWORD')
+
+    for name in ['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASSWORD']:
+        print(f"{name}: {os.getenv(name)}", file=sys.stderr)
 
     # if db_url is not None and db_user is not None and db_password is not None:
     # db_url = f'sqlite:///{os.path.dirname(__file__)}/../data/quotes.db'
