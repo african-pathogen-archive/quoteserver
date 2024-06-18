@@ -27,7 +27,7 @@ async def lifespan(app: FastAPI):
     db_password = os.getenv('DB_PASSWORD')
 
     for name in ['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASSWORD']:
-        print(f"{name}: {os.getenv(name)}", file=sys.stderr)
+        print(f"{name}: {os.getenv(name)}", file=stderr)
 
     # if db_url is not None and db_user is not None and db_password is not None:
     # db_url = f'sqlite:///{os.path.dirname(__file__)}/../data/quotes.db'
