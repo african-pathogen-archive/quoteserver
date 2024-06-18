@@ -13,7 +13,6 @@ COPY requirements.txt /app/requirements.txt
 RUN python3 -m venv /app/venv
 RUN /app/venv/bin/pip install -r /app/requirements.txt
 
-COPY env.sh /app/env.sh
 COPY run_server.sh /app/run_server.sh
 RUN chmod a+x /app/run_server.sh
 
