@@ -26,9 +26,6 @@ async def lifespan(app: FastAPI):
     db_user = os.getenv('DB_USER')
     db_password = os.getenv('DB_PASSWORD')
 
-    for name in ['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASSWORD']:
-        print(f"{name}: {os.getenv(name)}", file=stderr)
-
     # if db_url is not None and db_user is not None and db_password is not None:
     # db_url = f'sqlite:///{os.path.dirname(__file__)}/../data/quotes.db'
     db_url = f'postgresql+psycopg://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}'
@@ -61,6 +58,8 @@ async def get_quote(quote_id: int = Query(-1, description="The ID of the quote y
     if quote_id == -1:
         query = select(func.max(Quote.id))
         max_id = session.exec(query).scalar()
+        if max_id is None:
+            raise HTTPException(status_code=404, detail="No quotes found.")
         quote_id = randint(1, max_id)
 
     query = select(Quote).where(Quote.id == quote_id)
